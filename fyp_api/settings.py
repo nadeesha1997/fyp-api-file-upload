@@ -14,10 +14,12 @@ from datetime import timedelta
 import os
 from pathlib import Path
 from decouple import config
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -26,10 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-m$q+#&r4!)s5*sz-=7mk!+*!l!%n)cvb4k4$8m_cc43w82r%2&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG',cast=bool)
+DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -43,21 +44,22 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'upload.apps.UploadConfig',
     'rest_framework',
+    'cloudinary',
 ]
 
-AUTH_USER_MODEL='authentication.User'
+AUTH_USER_MODEL = 'authentication.User'
 
-REST_FRAMEWORK={
-    'NON_FIELD_ERRORS_KEY':'errors',
+REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEY': 'errors',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
 SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('Bearer',),
-   'ACCESS_TOKEN_LIFETIME':timedelta(days=1),
-   'REFRESH_TOKEN_LIFETIME':timedelta(days=1),
-   'BLACKLIST_AFTER_ROTATION':False
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'BLACKLIST_AFTER_ROTATION': False
 }
 
 MIDDLEWARE = [
@@ -90,7 +92,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fyp_api.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -100,7 +101,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -120,6 +120,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': "dfwrudjra",
+    'API_SECRET': "bAqPVX-iGOUU42ZThZzjlMH-z6w",
+    'API_KEY': "132199944675185"
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -132,13 +137,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_ROOT=os.path.join(BASE_DIR,'media')
-MEDIA_URL='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
