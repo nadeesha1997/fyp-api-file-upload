@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'cloudinary',
     'corsheaders',
+    'predict.apps.PredictConfig',
+    'ml_model.apps.MlModelConfig',
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 AUTH_USER_MODEL = 'authentication.User'
@@ -155,7 +157,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 django_heroku.settings(locals())
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

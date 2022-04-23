@@ -39,6 +39,6 @@ class UploadFileView(generics.GenericAPIView):
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):
-        Uploads = FileUpload.objects.all()
-        serializer = self.serializer_class(instance=Uploads, many=True)
+        uploads = FileUpload.objects.all()
+        serializer = self.serializer_class(instance=uploads, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
